@@ -2,6 +2,7 @@
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import BookingItem from '../_components/booking-item'
+import Footer from '../_components/footer'
 import Header from '../_components/header'
 import { db } from '../_lib/prisma'
 import BarbershopItem from './_components/barbershop-item'
@@ -29,7 +30,18 @@ const Home = async () => {
 
 				<div className="mt-6">
 					<h2 className='px-5 text-xs mb-3 uppercase text-gray-400 font-bold'>
-            Agendamento
+            Recomendados
+					</h2>
+					<div className="flex px-5 gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+						{barbershops.map((barbershop) => (
+							<BarbershopItem key={barbershop.id} barbershop={barbershop} />
+						))}
+					</div>
+				</div>
+
+				<div className="mt-6 mb-[4.5rem]">
+					<h2 className='px-5 text-xs mb-3 uppercase text-gray-400 font-bold'>
+            Populares
 					</h2>
 					<div className="flex px-5 gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden">
 						{barbershops.map((barbershop) => (
@@ -38,6 +50,7 @@ const Home = async () => {
 					</div>
 				</div>
 			</div>
+			<Footer />
 		</div>
 	)
 }
