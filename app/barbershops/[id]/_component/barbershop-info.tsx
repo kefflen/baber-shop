@@ -9,7 +9,7 @@ type barbershopDetailPageProps = {
   barbershop: Barbershop
 }
 
-const BarbershopInfo = async ({ barbershop }: barbershopDetailPageProps) => {
+const BarbershopInfo = ({ barbershop }: barbershopDetailPageProps) => {
   const router = useRouter()
 
   const handleBackButton = () => {
