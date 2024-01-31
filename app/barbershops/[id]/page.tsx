@@ -1,6 +1,8 @@
 import { db } from '@/app/_lib/prisma'
 import BarbershopInfo from './_component/barbershop-info'
 import ServiceItem from './_component/service-item'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 
 type barbershopDetailPageProps = {
   params: {
@@ -10,6 +12,7 @@ type barbershopDetailPageProps = {
 
 //TODO: Add services and information button that are on design
 const BarbershopDetailPage = async ({ params }: barbershopDetailPageProps) => {
+  const session = await getServerSession(authOptions)
   const barbershop = await db.barbershop.findUnique({
     where: {
       id: params.id
@@ -29,7 +32,7 @@ const BarbershopDetailPage = async ({ params }: barbershopDetailPageProps) => {
       <BarbershopInfo barbershop={barbershop} />
       <div className="p-5 flex gap-3 flex-col">
         {barbershop.services.map((service) => (
-          <ServiceItem key={service.id} service={service}/>
+          <ServiceItem key={service.id} service={service} isAuthenticated={!!session?.user}/>
         ))}
       </div>
     </div>
