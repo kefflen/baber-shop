@@ -78,7 +78,6 @@ const ServiceItem = ({
 
   const handleBookingSubmit = async () => {
     setSubmitIsLoading(true)
-
     try {
       if (!hour || !date || !data?.user) {
         return
@@ -93,7 +92,7 @@ const ServiceItem = ({
         serviceId: service.id,
         barbershopId: barbershop.id,
         date: newDate,
-        userId: (data.user as any).id
+        userEmail: (data.user as any).email
       })
 
       setSheetIsOpen(false)
