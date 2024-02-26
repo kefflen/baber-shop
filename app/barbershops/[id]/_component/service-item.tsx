@@ -183,11 +183,8 @@ const ServiceItem = ({
                       onSelect={handleDateClick}
                       locale={ptBR}
                       fromDate={addDays(new Date(), 1)}
+                      className='flex justify-center'
                       styles={{
-                        head_cell: {
-                          width: '100%',
-                          textTransform: 'capitalize'
-                        },
                         cell: {
                           width: '100%'
                         },
