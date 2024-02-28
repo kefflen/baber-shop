@@ -79,7 +79,7 @@ model Service {
   barbershop   Barbershop @relation(fields: [barbershopId], references: [id])
   name         String
   description  String
-  price        Decimal    
+  price        Float    
   imageUrl    String
   bookings     Booking[]
 }
