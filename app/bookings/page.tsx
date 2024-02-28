@@ -39,7 +39,6 @@ const BookingsPage = async () => {
       }
     })
   ])
-  console.log('bookings', confirmedBookings, finishedBookings)
 
   return (
     <>
