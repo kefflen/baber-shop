@@ -1,15 +1,41 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable quotes */
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
+import { getServerSession } from 'next-auth'
 import BookingItem from '../_components/booking-item'
-import Footer from '../_components/footer'
 import Header from '../_components/header'
+import { authOptions } from '../_lib/auth'
 import { db } from '../_lib/prisma'
 import BarbershopItem from './_components/barbershop-item'
 import Search from './_components/search'
 
 const Home = async () => {
-  const barbershops = await db.barbershop.findMany()
+  const session = await getServerSession(authOptions)
+
+  const [barbershops, recommendedBarbershops, confirmedBookings] =
+    await Promise.all([
+      db.barbershop.findMany({}),
+      db.barbershop.findMany({
+        orderBy: {
+          id: 'asc'
+        }
+      }),
+      session?.user
+        ? db.booking.findMany({
+            where: {
+              userId: (session.user as any).id,
+              date: {
+                gte: new Date()
+              }
+            },
+            include: {
+              service: true,
+              barbershop: true
+            }
+          })
+        : Promise.resolve([])
+    ])
 
   return (
     <div className="">
@@ -25,11 +51,19 @@ const Home = async () => {
         <div className="px-5 mt-6">
           <Search />
         </div>
-        <div className="px-5 mt-6">
-          <h2 className="text-xs mb-3 uppercase text-gray-400 font-bold">
-            Agendamento
-          </h2>
-          <BookingItem />
+        <div className="mt-6">
+          {confirmedBookings.length > 0 && (
+            <>
+              <h2 className="text-xs mb-3 uppercase text-gray-400 font-bold">
+                Agendamento
+              </h2>
+              <div className="px-5 flex gap-3 overflow-x-auto [&::webkit-scrollbar]:hidden">
+                {confirmedBookings.map((booking) => (
+                  <BookingItem key={booking.id} booking={booking} />
+                ))}
+              </div>
+            </>
+          )}
         </div>
 
         <div className="mt-6">
@@ -48,7 +82,7 @@ const Home = async () => {
             Populares
           </h2>
           <div className="flex px-5 gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-            {barbershops.map((barbershop) => (
+            {recommendedBarbershops.map((barbershop) => (
               <BarbershopItem key={barbershop.id} barbershop={barbershop} />
             ))}
           </div>
