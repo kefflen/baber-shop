@@ -1,6 +1,5 @@
 'use client'
 import { MenuIcon } from 'lucide-react'
-import { signIn, signOut, useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Sidemenu from './sidemenu'
 import { Button } from './ui/button'
@@ -8,7 +7,6 @@ import { Card, CardContent } from './ui/card'
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet'
 
 const Header = () => {
-
   return (
     <Card>
       <CardContent className="px-5 py-8 justify-between flex items-center">

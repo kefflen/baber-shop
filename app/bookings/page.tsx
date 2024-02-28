@@ -34,7 +34,7 @@ const BookingsPage = async () => {
         }
       },
       include: {
-      service: true,
+        service: true,
         barbershop: true
       }
     })
