@@ -1,8 +1,8 @@
 import { db } from '@/app/_lib/prisma'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { getServerSession } from 'next-auth'
 import BarbershopInfo from './_component/barbershop-info'
 import ServiceItem from './_component/service-item'
+import { authOptions } from '@/app/_lib/auth'
 
 type barbershopDetailPageProps = {
   params: {
